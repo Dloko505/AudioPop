@@ -3,6 +3,9 @@ package com.adulgr.audio.audiopop;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -40,6 +43,9 @@ public class MainActivity extends AppCompatActivity
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
+
+    displaySelectedScreen(R.id.nav_setup);
+
   }
 
   @Override
@@ -74,28 +80,59 @@ public class MainActivity extends AppCompatActivity
     return super.onOptionsItemSelected(item);
   }
 
-  @SuppressWarnings("StatementWithEmptyBody")
-  @Override
-  public boolean onNavigationItemSelected(MenuItem item) {
-    // Handle navigation view item clicks here.
-    int id = item.getItemId();
+  private void displaySelectedScreen(int itemId) {
+    // Create fragment object
+    Fragment fragment = null;
 
-    if (id == R.id.nav_camera) {
-      // Handle the camera action
-    } else if (id == R.id.nav_gallery) {
+    // Initialize the fragment object which is selected
+    switch (itemId) {
+      case R.id.nav_setup:
+        fragment = new SetupFragment();
+        break;
+      case R.id.nav_test:
+        fragment = new TestFragment();
+        break;
 
-    } else if (id == R.id.nav_slideshow) {
+    }
 
-    } else if (id == R.id.nav_manage) {
-
-    } else if (id == R.id.nav_share) {
-
-    } else if (id == R.id.nav_send) {
-
+    // Replace the fragment
+    if (fragment != null) {
+      FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+      ft.replace(R.id.main_container, fragment);
+      ft.commit();
     }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
+  }
+
+  @SuppressWarnings("StatementWithEmptyBody")
+  @Override
+  public boolean onNavigationItemSelected(MenuItem item) {
+    // Call the method displaySelectedScreen and pass the id of selected window.
+    displaySelectedScreen(item.getItemId());
+    //make this method blank
     return true;
+//    int id = item.getItemId();
+//
+//    if (id == R.id.nav_setup) {
+//      FragmentManager fragmentManager = getSupportFragmentManager();
+//      fragmentManager.beginTransaction().replace(R.id.main_container, new SetupFragment()).commit();
+//    } else if (id == R.id.nav_gear) {
+//
+//    } else if (id == R.id.nav_test) {
+//      FragmentManager fragmentManager = getSupportFragmentManager();
+//      fragmentManager.beginTransaction().replace(R.id.main_container, new TestFragment()).commit();
+//
+//    } else if (id == R.id.nav_manage) {
+//
+//    } else if (id == R.id.nav_share) {
+//
+//    } else if (id == R.id.nav_send) {
+//
+//    }
+//
+//    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//    drawer.closeDrawer(GravityCompat.START);
   }
 }
