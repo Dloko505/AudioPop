@@ -10,7 +10,9 @@
   <string name="test_title">Test</string>
   <string-array name="test_array">
     <item>Mono</item>
-    <item>Stereo</item>
+    <item>Stereo 2 ch</item>
+    <item>Stereo 4 ch</item>
+    <item>Surround</item>
   </string-array>
   <string name="action_settings">Settings</string>
 </resources>

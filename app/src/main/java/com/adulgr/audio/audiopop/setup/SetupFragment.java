@@ -1,4 +1,4 @@
-package com.adulgr.audio.audiopop;
+package com.adulgr.audio.audiopop.setup;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import com.adulgr.audio.audiopop.R;
+import com.adulgr.audio.audiopop.setup.Setup;
 
 public class SetupFragment extends Fragment {
   private Setup mSetup;
