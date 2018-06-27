@@ -1,9 +1,11 @@
 package com.adulgr.audio.audiopop.popTest;
 
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +16,17 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import com.adulgr.audio.audiopop.R;
+import java.util.Date;
 
+@Entity
 public class TestFragment extends Fragment {
+
+  @PrimaryKey(autoGenerate = true)
+  private long testId;
+  @NonNull
+  private Date timestamp;
+  @NonNull
+  private boolean testResults;
 
   public TestFragment() {
     // Left blank intentionally

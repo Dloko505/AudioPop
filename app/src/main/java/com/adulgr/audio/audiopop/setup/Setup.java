@@ -3,6 +3,7 @@ package com.adulgr.audio.audiopop.setup;
 import java.util.Date;
 import java.util.UUID;
 
+
 public class Setup {
 
   private UUID mId;
