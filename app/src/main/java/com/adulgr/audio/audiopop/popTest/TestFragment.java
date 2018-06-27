@@ -4,6 +4,7 @@ package com.adulgr.audio.audiopop.popTest;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,27 @@ public class TestFragment extends Fragment {
       public void onItemSelected(AdapterView<?> parent, View view,
           int position, long id) {
 
+        Fragment fragment = null;
+
+        switch ((String)parent.getSelectedItem()) {
+          case "Mono":
+            fragment = new TestMono();
+            break;
+          case "Stereo 2 ch":
+            fragment = new TestStereo2();
+            break;
+          case "Stereo 4 ch":
+            fragment = new TestStereo4();
+            break;
+        }
+
+
+          //replacing the fragment
+          if (fragment != null) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.test_frame, fragment);
+            ft.commit();
+          }
       }
 
       @Override

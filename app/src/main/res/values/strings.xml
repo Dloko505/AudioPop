@@ -15,4 +15,14 @@
     <item>Surround</item>
   </string-array>
   <string name="action_settings">Settings</string>
+  <string name="test_mono_label">Mono</string>
+  <string name="test_stereo2_label">Stereo 2 Channel</string>
+  <string name="test_left">Left Ch</string>
+  <string name="test_right">Right Ch</string>
+  <string name="test_stereo4_label">Stereo 4 Channel</string>
+  <string name="test_left_front">Left Front Ch</string>
+  <string name="test_right_front">Right Front Ch</string>
+  <string name="test_left_rear">Left Rear Ch</string>
+  <string name="test_right_rear">Right Rear Ch</string>
+  <string name="sensitivity_slider_label">Sensitivity Input</string>
 </resources>
