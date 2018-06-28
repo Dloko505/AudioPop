@@ -3,24 +3,6 @@
   android:layout_height="match_parent"
   android:layout_margin="16dp"
   android:orientation="vertical">
-  <TextView
-    style="?android:listSeparatorTextViewStyle"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/setup_title_label"/>
-  <EditText
-    android:id="@+id/setup_title"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="@string/setup_title_hint"/>
-  <TextView
-    style="?android:listSeparatorTextViewStyle"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/setup_notes_label"/>
-  <Button
-    android:id="@+id/setup_date"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+
 
 </LinearLayout>

@@ -1,30 +1,51 @@
 package com.adulgr.audio.audiopop.entities;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity
+@Entity(
+    foreignKeys = {
+        @ForeignKey(
+            entity = Test.class,
+            parentColumns = "test_id", childColumns = "test_id",
+            onDelete = ForeignKey.CASCADE
+        )
+    }
+)
 public class Results {
 
   @PrimaryKey(autoGenerate = true)
-  private long resultsId;
+  @ColumnInfo(name = "results_id")
+  private long id;
 
-  private String resNotes;
+  @ColumnInfo(name = "test_id", index = true)
+  private long testId;
 
-  public long getResultsId() {
-    return resultsId;
+  public long getTestId() {
+    return testId;
   }
 
-  public void setResultsId(long resultsId) {
-    this.resultsId = resultsId;
+  public void setTestId(long testId) {
+    this.testId = testId;
   }
 
+  private String notes;
 
-  public String getResNotes() {
-    return resNotes;
+  public long getId() {
+    return id;
   }
 
-  public void setResNotes( String resNotes) {
-    this.resNotes = resNotes;
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public String getNotes() {
+    return notes;
+  }
+
+  public void setNotes(String notes) {
+    this.notes = notes;
   }
 }

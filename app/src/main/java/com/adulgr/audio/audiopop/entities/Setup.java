@@ -1,64 +1,64 @@
 package com.adulgr.audio.audiopop.entities;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import java.util.Date;
 
-@Entity
+@Entity(
+    indices = {
+        @Index(value = "name", unique = true)
+    }
+)
 public class Setup {
 
+  @ColumnInfo(name = "setup_id")
   @PrimaryKey(autoGenerate = true)
-  private long setupId;
+  private long id;
 
-  private String preNotes;
-  @NonNull
-  private String setupName;
-  @NonNull
-  private String setupGear;
-  @NonNull
-  private Date setupTimestamp;
-
-  public long getSetupId() {
-    return setupId;
-  }
-
-  public void setSetupId(long setupId) {
-    this.setupId = setupId;
-  }
-
-  public String getPreNotes() {
-    return preNotes;
-  }
-
-  public void setPreNotes(String preNotes) {
-    this.preNotes = preNotes;
-  }
+  private String notes;
 
   @NonNull
-  public String getSetupName() {
-    return setupName;
+  @ColumnInfo (collate = ColumnInfo.NOCASE)
+  private String name;
+  @NonNull
+  private String gear;
+
+  public long getId() {
+    return id;
   }
 
-  public void setSetupName(@NonNull String setupName) {
-    this.setupName = setupName;
+  public void setId(long id) {
+    this.id = id;
+  }
+
+
+  public String getNotes() {
+    return notes;
+  }
+
+  public void setNotes(String notes) {
+    this.notes = notes;
   }
 
   @NonNull
-  public String getSetupGear() {
-    return setupGear;
+  public String getName() {
+    return name;
   }
 
-  public void setSetupGear(@NonNull String setupGear) {
-    this.setupGear = setupGear;
+  public void setName(@NonNull String name) {
+    this.name = name;
   }
 
   @NonNull
-  public Date getSetupTimestamp() {
-    return setupTimestamp;
+  public String getGear() {
+    return gear;
   }
 
-  public void setSetupTimestamp(@NonNull Date setupTimestamp) {
-    this.setupTimestamp = setupTimestamp;
+  public void setGear(@NonNull String gear) {
+    this.gear = gear;
   }
+
 }
