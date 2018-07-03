@@ -12,4 +12,21 @@ public class User {
 
   @NonNull
   private String userEmail;
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  @NonNull
+  public String getUserEmail() {
+    return userEmail;
+  }
+
+  public void setUserEmail(@NonNull String userEmail) {
+    this.userEmail = userEmail;
+  }
 }

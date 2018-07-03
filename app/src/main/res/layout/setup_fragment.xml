@@ -1,8 +1,63 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_margin="16dp"
   android:orientation="vertical">
 
+  <EditText
+    android:id="@+id/setup_title"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:hint="@string/setup_title_hint"
+    app:layout_constraintTop_toTopOf="parent"/>
 
-</LinearLayout>
+  <TextView
+    android:id="@+id/gear_select_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/setup_gear_hint"
+    android:layout_marginTop="65dp"
+    app:layout_constraintTop_toBottomOf="@id/setup_title"/>
+  <RadioButton
+    android:id="@+id/setup_gear"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/stock_rButton"
+    android:paddingEnd="75dp"
+    app:layout_constraintTop_toBottomOf="@id/gear_select_title"
+    app:layout_constraintRight_toLeftOf="@+id/aftermarket_gear"/>
+  <RadioButton
+    android:id="@+id/aftermarket_gear"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/aftermarket_rButton"
+    app:layout_constraintTop_toBottomOf="@id/gear_select_title"
+    app:layout_constraintLeft_toRightOf="@id/setup_gear"/>
+
+  <EditText
+    android:id="@+id/setup_notes"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="@string/setup_notes_hint"
+    android:paddingTop="75dp"
+    app:layout_constraintTop_toBottomOf="@id/setup_gear"/>
+
+  <Button
+    android:id="@+id/setup_cancel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/cancel_setup_button"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toLeftOf="@+id/setup_save"
+    app:layout_constraintBottom_toBottomOf="parent"/>
+  <Button
+    android:id="@+id/setup_save"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/save_setup_button"
+    app:layout_constraintLeft_toRightOf="@id/setup_cancel"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

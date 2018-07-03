@@ -83,8 +83,6 @@ public abstract class TestResults extends RoomDatabase {
       test.setTestResult(false);
       test.setTimestamp(new Date());
       db.getTestDao().insert(test);
-//      db.getStudentDao().insert(Student.testData());
-//      db.getAbsenceDao().insert(Absence.testData());
        forgetInstance(contexts[0]);
       return null;
     }

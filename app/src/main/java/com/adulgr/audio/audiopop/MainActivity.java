@@ -15,9 +15,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.adulgr.audio.audiopop.db.TestResults;
-import com.adulgr.audio.audiopop.popTest.TestFragment;
-import com.adulgr.audio.audiopop.setup.SetupFragment;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import com.adulgr.audio.audiopop.entities.Setup;
+import com.adulgr.audio.audiopop.fragments.user.UserFragment;
+import com.adulgr.audio.audiopop.fragments.result.ResultFragment;
+import com.adulgr.audio.audiopop.fragments.test.TestFragment;
+import com.adulgr.audio.audiopop.fragments.setup.SetupFragment;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,10 +32,10 @@ public class MainActivity extends AppCompatActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    FloatingActionButton fab = findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
@@ -38,30 +44,30 @@ public class MainActivity extends AppCompatActivity
       }
     });
 
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    DrawerLayout drawer = findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
         this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     drawer.addDrawerListener(toggle);
     toggle.syncState();
 
-    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+    NavigationView navigationView = findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
 
     displaySelectedScreen(R.id.nav_setup);
 
-    new AsyncTask<Void, Void, Void>() {
-
-      @Override
-      protected Void doInBackground(Void... voids) {
-        TestResults.getInstance(MainActivity.this).getSetupDao().select();
-        return null;
-      }
-    }.execute();
+//    new AsyncTask<Void, Void, Void>() {
+//
+//      @Override
+//      protected Void doInBackground(Void... voids) {
+//        TestResults.getInstance(MainActivity.this).getSetupDao().select();
+//        return null;
+//      }
+//    }.execute();
   }
 
   @Override
   public void onBackPressed() {
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    DrawerLayout drawer = findViewById(R.id.drawer_layout);
     if (drawer.isDrawerOpen(GravityCompat.START)) {
       drawer.closeDrawer(GravityCompat.START);
     } else {
@@ -97,12 +103,17 @@ public class MainActivity extends AppCompatActivity
 
     // Initialize the fragment object which is selected
     switch (itemId) {
+      case R.id.nav_user:
+        fragment = new UserFragment();
+        break;
       case R.id.nav_setup:
         fragment = new SetupFragment();
         break;
       case R.id.nav_test:
         fragment = new TestFragment();
         break;
+      case R.id.nav_results:
+        fragment = new ResultFragment();
 
     }
 
@@ -113,7 +124,7 @@ public class MainActivity extends AppCompatActivity
       ft.commit();
     }
 
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    DrawerLayout drawer = findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
   }
 
@@ -125,4 +136,6 @@ public class MainActivity extends AppCompatActivity
     //make this method blank
     return true;
   }
+
+
 }

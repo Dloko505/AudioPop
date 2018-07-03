@@ -5,7 +5,6 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
-import java.util.Date;
 
 @Entity(
     indices = {
@@ -18,13 +17,13 @@ public class Setup {
   @PrimaryKey(autoGenerate = true)
   private long id;
 
-  private String notes;
+  private String SetupNotes;
 
   @NonNull
   @ColumnInfo (collate = ColumnInfo.NOCASE)
   private String name;
-  @NonNull
-  private String gear;
+
+  private String Gear;
 
   public long getId() {
     return id;
@@ -35,12 +34,12 @@ public class Setup {
   }
 
 
-  public String getNotes() {
-    return notes;
+  public String getSetupNotes() {
+    return SetupNotes;
   }
 
-  public void setNotes(String notes) {
-    this.notes = notes;
+  public void setSetupNotes(String notes) {
+    this.SetupNotes = notes;
   }
 
   @NonNull
@@ -52,13 +51,13 @@ public class Setup {
     this.name = name;
   }
 
-  @NonNull
+
   public String getGear() {
-    return gear;
+    return Gear;
   }
 
-  public void setGear(@NonNull String gear) {
-    this.gear = gear;
+  public void setGear(String gear) {
+    this.Gear = gear;
   }
 
 }

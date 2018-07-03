@@ -1,0 +1,184 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "2181d736652e6f73a901f82e30bfc513",
+    "entities": [
+      {
+        "tableName": "Setup",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`setup_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `SetupNotes` TEXT, `name` TEXT NOT NULL COLLATE NOCASE, `Gear` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "setup_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "SetupNotes",
+            "columnName": "SetupNotes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Gear",
+            "columnName": "Gear",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "setup_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Setup_name",
+            "unique": true,
+            "columnNames": [
+              "name"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Setup_name` ON `${TABLE_NAME}` (`name`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Test",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`test_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `setup_id` INTEGER NOT NULL, `notes` TEXT, `testType` TEXT NOT NULL, `testResult` INTEGER NOT NULL, `timestamp` INTEGER NOT NULL, FOREIGN KEY(`setup_id`) REFERENCES `Setup`(`setup_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "test_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "setupId",
+            "columnName": "setup_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "testType",
+            "columnName": "testType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "testResult",
+            "columnName": "testResult",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "test_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Test_setup_id",
+            "unique": false,
+            "columnNames": [
+              "setup_id"
+            ],
+            "createSql": "CREATE  INDEX `index_Test_setup_id` ON `${TABLE_NAME}` (`setup_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Setup",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "setup_id"
+            ],
+            "referencedColumns": [
+              "setup_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Results",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`results_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `test_id` INTEGER NOT NULL, `notes` TEXT, FOREIGN KEY(`test_id`) REFERENCES `Test`(`test_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "results_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "testId",
+            "columnName": "test_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "results_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Results_test_id",
+            "unique": false,
+            "columnNames": [
+              "test_id"
+            ],
+            "createSql": "CREATE  INDEX `index_Results_test_id` ON `${TABLE_NAME}` (`test_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Test",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "test_id"
+            ],
+            "referencedColumns": [
+              "test_id"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"2181d736652e6f73a901f82e30bfc513\")"
+    ]
+  }
+}
