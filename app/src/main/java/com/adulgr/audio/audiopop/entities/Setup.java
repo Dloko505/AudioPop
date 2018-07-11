@@ -17,13 +17,13 @@ public class Setup {
   @PrimaryKey(autoGenerate = true)
   private long id;
 
-  private String SetupNotes;
+  private String setup_notes;
 
   @NonNull
   @ColumnInfo (collate = ColumnInfo.NOCASE)
   private String name;
 
-  private String Gear;
+  private String gear;
 
   public long getId() {
     return id;
@@ -33,13 +33,12 @@ public class Setup {
     this.id = id;
   }
 
-
-  public String getSetupNotes() {
-    return SetupNotes;
+  public String getSetup_notes() {
+    return setup_notes;
   }
 
-  public void setSetupNotes(String notes) {
-    this.SetupNotes = notes;
+  public void setSetup_notes(String setup_notes) {
+    this.setup_notes = setup_notes;
   }
 
   @NonNull
@@ -51,13 +50,11 @@ public class Setup {
     this.name = name;
   }
 
-
   public String getGear() {
-    return Gear;
+    return gear;
   }
 
   public void setGear(String gear) {
-    this.Gear = gear;
+    this.gear = gear;
   }
-
 }

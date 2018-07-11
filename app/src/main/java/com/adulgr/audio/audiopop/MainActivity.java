@@ -1,12 +1,10 @@
 package com.adulgr.audio.audiopop;
 
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,15 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import com.adulgr.audio.audiopop.entities.Setup;
-import com.adulgr.audio.audiopop.fragments.user.UserFragment;
-import com.adulgr.audio.audiopop.fragments.result.ResultFragment;
+import com.adulgr.audio.audiopop.fragments.result.ResultListFragment;
 import com.adulgr.audio.audiopop.fragments.test.TestFragment;
 import com.adulgr.audio.audiopop.fragments.setup.SetupFragment;
+import com.adulgr.audio.audiopop.fragments.user.LoginActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,15 +29,6 @@ public class MainActivity extends AppCompatActivity
     setContentView(R.layout.activity_main);
     Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-
-    FloatingActionButton fab = findViewById(R.id.fab);
-    fab.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show();
-      }
-    });
 
     DrawerLayout drawer = findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -59,7 +45,7 @@ public class MainActivity extends AppCompatActivity
 //
 //      @Override
 //      protected Void doInBackground(Void... voids) {
-//        TestResults.getInstance(MainActivity.this).getSetupDao().select();
+//        AudioPopDb.getInstance(MainActivity.this).getSetupDao().select();
 //        return null;
 //      }
 //    }.execute();
@@ -90,11 +76,29 @@ public class MainActivity extends AppCompatActivity
     int id = item.getItemId();
 
     //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
+    if (id == R.id.action_logout) {
+      signOut();
       return true;
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  private void signOut() {
+    getSignInApplication().getSignInClient().signOut()
+        .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+          @Override
+          public void onComplete(@NonNull Task<Void> task) {
+            getSignInApplication().setSignInAccount(null);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+          }
+        });
+  }
+
+  private AudioApplication getSignInApplication() {
+    return (AudioApplication) getApplication();
   }
 
   private void displaySelectedScreen(int itemId) {
@@ -103,9 +107,6 @@ public class MainActivity extends AppCompatActivity
 
     // Initialize the fragment object which is selected
     switch (itemId) {
-      case R.id.nav_user:
-        fragment = new UserFragment();
-        break;
       case R.id.nav_setup:
         fragment = new SetupFragment();
         break;
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity
         fragment = new TestFragment();
         break;
       case R.id.nav_results:
-        fragment = new ResultFragment();
+        fragment = new ResultListFragment();
 
     }
 

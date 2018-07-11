@@ -22,7 +22,7 @@ public class Test {
   @ColumnInfo(name = "test_id")
   private long id;
 
-  @NonNull
+
   @ColumnInfo(name = "setup_id", index = true)
   private long setupId;
 

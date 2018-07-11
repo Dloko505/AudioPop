@@ -5,21 +5,25 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import com.adulgr.audio.audiopop.R;
-import com.adulgr.audio.audiopop.db.TestResults;
+import com.adulgr.audio.audiopop.db.AudioPopDb;
 import com.adulgr.audio.audiopop.entities.Setup;
+import com.adulgr.audio.audiopop.fragments.test.TestFragment;
+import com.adulgr.audio.audiopop.fragments.test.TestMono;
 
 public class SetupFragment extends Fragment {
 
   private EditText setupName;
-  private RadioButton setupGear;
+  private RadioGroup setupGear;
   private EditText setupNotes;
   private Button setupSave;
   private Button setupCancel;
@@ -49,28 +53,37 @@ public class SetupFragment extends Fragment {
 
     setupName = view.findViewById(R.id.setup_title);
     setupGear = view.findViewById(R.id.setup_gear);
+
     setupNotes = view.findViewById(R.id.setup_notes);
     setupCancel = view.findViewById(R.id.setup_cancel);
     setupSave = view.findViewById(R.id.setup_save);
 
     setupSave.setOnClickListener(new OnClickListener() {
       @Override
-      public void onClick(View v) {
+      public void onClick(View view) {
         Setup setup = new Setup();
         setup.setName(setupName.getText().toString());
-        setup.setGear(setupGear.getText().toString());
-        setup.setSetupNotes(setupNotes.getText().toString());
+        setup.setGear(String.valueOf(setupGear.getCheckedRadioButtonId()));
+        setup.setSetup_notes(setupNotes.getText().toString());
         new SetupInsert().execute(setup);
+
+        Fragment fragment = new TestFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
       }
     });
     return view;
   }
 
+
   private class SetupInsert extends AsyncTask<Setup, Void, Long> {
 
     @Override
     protected Long doInBackground(Setup... setups) {
-      return TestResults.getInstance(getActivity()).getSetupDao().insert(setups[0]);
+      return AudioPopDb.getInstance(getActivity()).getSetupDao().insert(setups[0]);
     }
   }
 }
