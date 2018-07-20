@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 import com.adulgr.audio.audiopop.R;
 import java.util.Date;
 
@@ -27,12 +28,13 @@ public class TestFragment extends Fragment {
   private Date timestamp;
   @NonNull
   private boolean testResults;
+  @NonNull
+  private Spinner testType;
 
   public TestFragment() {
     // Left blank intentionally
   }
 
-  private Spinner sp;
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -46,10 +48,10 @@ public class TestFragment extends Fragment {
   private void setSpinnerContent(View view) {
     ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.test_array,
         android.R.layout.simple_spinner_item);
-    sp = view.findViewById(R.id.test_spinner);
-    sp.setAdapter(adapter);
+    testType = view.findViewById(R.id.test_spinner);
+    testType.setAdapter(adapter);
 
-    sp.setOnItemSelectedListener(new OnItemSelectedListener() {
+    testType.setOnItemSelectedListener(new OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> parent, View view,
           int position, long id) {
@@ -61,10 +63,12 @@ public class TestFragment extends Fragment {
             fragment = new TestMono();
             break;
           case "Stereo 2 ch":
-            fragment = new TestStereo2();
+//            fragment = new TestStereo2();
+            Toast.makeText(getContext(), R.string.under_construction, Toast.LENGTH_SHORT).show();
             break;
           case "Stereo 4 ch":
-            fragment = new TestStereo4();
+            Toast.makeText(getContext(), R.string.under_construction, Toast.LENGTH_SHORT).show();
+//            fragment = new TestStereo4();
             break;
         }
 
@@ -83,8 +87,6 @@ public class TestFragment extends Fragment {
       }
     });
   }
-
-
 
   @Override
   public void onViewCreated(View view, Bundle savedInstanceState) {

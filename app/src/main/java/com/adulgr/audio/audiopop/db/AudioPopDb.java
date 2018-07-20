@@ -7,6 +7,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import com.adulgr.audio.audiopop.dao.SetupDao;
 import com.adulgr.audio.audiopop.dao.TestDao;
@@ -54,18 +55,18 @@ public abstract class AudioPopDb extends RoomDatabase {
       super.onOpen(db);
     }
 
-//    @Override
-//    public void onCreate(@NonNull SupportSQLiteDatabase db) {
-//      super.onCreate(db);
+    @Override
+    public void onCreate(@NonNull SupportSQLiteDatabase db) {
+      super.onCreate(db);
 //      new PrepopulateTask().execute(context); // Call a task to pre-populate database.
-//    }
-//
-//  }
-//
-//  private static class PrepopulateTask extends AsyncTask<Context, Void, Void> {
-//
-//    @Override
-//    protected Void doInBackground(Context... contexts) {
+    }
+
+  }
+
+  private static class PrepopulateTask extends AsyncTask<Context, Void, Void> {
+
+    @Override
+    protected Void doInBackground(Context... contexts) {
 //      AudioPopDb db = getInstance(contexts[0]);
 //      Setup setup = new Setup();
 //      setup.setName("Nicholas");
@@ -73,14 +74,14 @@ public abstract class AudioPopDb extends RoomDatabase {
 //      long setupId = db.getSetupDao().insert(setup);
 //      Test test = new Test();
 //     test.setSetupId(setupId);
-//      test.setTest_type("Stereo");
+//      test.setTestType("Stereo");
 //      test.setNotes("Blow it up and buy a new one");
-//      test.setTest_result(false);
+//      test.setTestResult(false);
 //      test.setTimestamp(new Date());
 //      db.getTestDao().insert(test);
 //       forgetInstance(contexts[0]);
-//      return null;
-//    }
+      return null;
+    }
 
 
   }

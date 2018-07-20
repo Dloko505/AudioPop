@@ -10,7 +10,7 @@ import java.util.List;
 @Dao
 public interface TestDao {
 
-  @Insert(onConflict = OnConflictStrategy.IGNORE)
+  @Insert(onConflict = OnConflictStrategy.FAIL)
   long insert (Test test);
 
   @Query("SELECT * FROM Test WHERE test_id = :id")

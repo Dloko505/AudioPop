@@ -17,13 +17,13 @@ public class Setup {
   @PrimaryKey(autoGenerate = true)
   private long id;
 
-  private String setup_notes;
-
   @NonNull
   @ColumnInfo (collate = ColumnInfo.NOCASE)
   private String name;
 
   private String gear;
+
+  private String setup_notes;
 
   public long getId() {
     return id;
@@ -56,5 +56,10 @@ public class Setup {
 
   public void setGear(String gear) {
     this.gear = gear;
+  }
+
+  @Override
+  public String toString() {
+    return name;
   }
 }

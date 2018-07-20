@@ -1,5 +1,6 @@
 package com.adulgr.audio.audiopop;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.adulgr.audio.audiopop.fragments.result.ResultListFragment;
+import com.adulgr.audio.audiopop.db.AudioPopDb;
+import com.adulgr.audio.audiopop.fragments.result.ResultFragment;
 import com.adulgr.audio.audiopop.fragments.test.TestFragment;
 import com.adulgr.audio.audiopop.fragments.setup.SetupFragment;
 import com.adulgr.audio.audiopop.fragments.user.LoginActivity;
@@ -22,6 +24,8 @@ import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
+
+  public static AudioPopDb audioDb;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,9 @@ public class MainActivity extends AppCompatActivity
     navigationView.setNavigationItemSelectedListener(this);
 
     displaySelectedScreen(R.id.nav_setup);
+
+    audioDb = Room.databaseBuilder(getApplicationContext(),
+        AudioPopDb.class, "audio_pop_db").build();
 
 //    new AsyncTask<Void, Void, Void>() {
 //
@@ -107,6 +114,9 @@ public class MainActivity extends AppCompatActivity
 
     // Initialize the fragment object which is selected
     switch (itemId) {
+      case R.id.nav_user:
+        signOut();
+        break;
       case R.id.nav_setup:
         fragment = new SetupFragment();
         break;
@@ -114,7 +124,7 @@ public class MainActivity extends AppCompatActivity
         fragment = new TestFragment();
         break;
       case R.id.nav_results:
-        fragment = new ResultListFragment();
+        fragment = new ResultFragment();
 
     }
 

@@ -24,13 +24,13 @@ public class Test {
 
 
   @ColumnInfo(name = "setup_id", index = true)
-  private long setupId;
+  private Long setupId;
 
-  public long getSetupId() {
+  public Long getSetupId() {
     return setupId;
   }
 
-  public void setSetupId(long setupId) {
+  public void setSetupId(Long setupId) {
     this.setupId = setupId;
   }
 
