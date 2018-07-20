@@ -1,12 +1,16 @@
 package com.adulgr.audio.audiopop;
 
+import android.Manifest;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,7 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.adulgr.audio.audiopop.db.AudioPopDb;
-import com.adulgr.audio.audiopop.fragments.result.ResultFragment;
+import com.adulgr.audio.audiopop.fragments.result.ResultSetupFragment;
 import com.adulgr.audio.audiopop.fragments.test.TestFragment;
 import com.adulgr.audio.audiopop.fragments.setup.SetupFragment;
 import com.adulgr.audio.audiopop.fragments.user.LoginActivity;
@@ -26,6 +30,46 @@ public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
   public static AudioPopDb audioDb;
+
+  private static final int REQUEST_ALL_PERMISSION = 1000;
+  private String[] permissions = {
+      Manifest.permission.RECORD_AUDIO,
+//      Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//      Manifest.permission.READ_EXTERNAL_STORAGE,
+      Manifest.permission.INTERNET
+  };
+
+  private void checkPermissions() {
+    boolean needPermission = false;
+    boolean needRationale = false;
+    for (String permission : permissions) {
+      needPermission |= ContextCompat.checkSelfPermission(
+          this, permission) != PackageManager.PERMISSION_GRANTED;
+      needRationale |= ActivityCompat.shouldShowRequestPermissionRationale(
+          this, permission);
+    }
+    if (needPermission) {
+      if (needRationale) {
+        // Show an explanation to the user *asynchronously* -- don't block
+        // this thread waiting for the user's response! After the user
+        // sees the explanation, try again to request the permission.
+      } else {
+        // No explanation needed; request the permission
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_ALL_PERMISSION);
+      }
+    }
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+      @NonNull int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    if (requestCode == REQUEST_ALL_PERMISSION) {
+      if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+        finish();
+      }
+    }
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -83,10 +127,10 @@ public class MainActivity extends AppCompatActivity
     int id = item.getItemId();
 
     //noinspection SimplifiableIfStatement
-    if (id == R.id.action_logout) {
-      signOut();
-      return true;
-    }
+//    if (id == R.id.action_logout) {
+//      signOut();
+//      return true;
+//    }
 
     return super.onOptionsItemSelected(item);
   }
@@ -124,7 +168,7 @@ public class MainActivity extends AppCompatActivity
         fragment = new TestFragment();
         break;
       case R.id.nav_results:
-        fragment = new ResultFragment();
+        fragment = new ResultSetupFragment();
 
     }
 
@@ -147,6 +191,5 @@ public class MainActivity extends AppCompatActivity
     //make this method blank
     return true;
   }
-
 
 }

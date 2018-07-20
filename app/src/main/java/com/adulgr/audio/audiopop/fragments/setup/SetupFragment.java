@@ -28,6 +28,7 @@ public class SetupFragment extends Fragment {
   private EditText setupNotes;
   private Button setupSave;
   private Button setupSkip;
+  private Long setupId;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class SetupFragment extends Fragment {
     setupSkip.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
+        setupId = null;
         goToTestFrag();
       }
     });
@@ -75,10 +77,6 @@ public class SetupFragment extends Fragment {
         setup.setGear(selectedGear.getText().toString());
         setup.setSetup_notes(setupNotes.getText().toString());
         new SetupInsert().execute(setup);
-
-        Toast.makeText(getActivity(), "Setup added successfully", Toast.LENGTH_SHORT).show();
-
-        goToTestFrag();
       }
     });
     return view;
@@ -86,6 +84,9 @@ public class SetupFragment extends Fragment {
 
   private void goToTestFrag() {
     Fragment fragment = new TestFragment();
+    Bundle bundle = new Bundle();
+    bundle.putSerializable(TestFragment.SETUP_KEY, setupId);
+    fragment.setArguments(bundle);
     FragmentManager fragmentManager = getFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     fragmentTransaction.replace(R.id.main_container, fragment);
@@ -98,7 +99,15 @@ public class SetupFragment extends Fragment {
 
     @Override
     protected Long doInBackground(Setup... setups) {
-      return AudioPopDb.getInstance(getActivity()).getSetupDao().insert(setups[0]);
+      Long id = AudioPopDb.getInstance(getActivity()).getSetupDao().insert(setups[0]);
+      return id;
+    }
+
+    @Override
+    protected void onPostExecute(Long aLong) {
+      setupId = aLong;
+      Toast.makeText(getActivity(), "Setup added successfully", Toast.LENGTH_SHORT).show();
+      goToTestFrag();
     }
   }
 }

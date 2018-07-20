@@ -16,6 +16,9 @@ public interface TestDao {
   @Query("SELECT * FROM Test WHERE test_id = :id")
   Test select(long id);
 
+  @Query("SELECT * FROM Test WHERE setup_id = :id ORDER BY timestamp DESC")
+  List<Test> selectBySetup(long id);
+
   @Query("SELECT * FROM Test ORDER BY timestamp DESC")
   List<Test> select();
 }

@@ -5,6 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -19,20 +20,32 @@ import android.widget.Toast;
 import com.adulgr.audio.audiopop.R;
 import java.util.Date;
 
-@Entity
+
 public class TestFragment extends Fragment {
 
-  @PrimaryKey(autoGenerate = true)
+  public static final String SETUP_KEY = "setup";
+  public static final String TEST_KEY = "test";
+
   private long testId;
-  @NonNull
+  private Long setupId;
   private Date timestamp;
-  @NonNull
+
   private boolean testResults;
-  @NonNull
+
   private Spinner testType;
 
   public TestFragment() {
     // Left blank intentionally
+  }
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Bundle args = getArguments();
+    if (args != null) {
+      setupId = (Long) args.getSerializable(SETUP_KEY);
+
+    }
   }
 
   @Override
@@ -46,8 +59,9 @@ public class TestFragment extends Fragment {
 
 
   private void setSpinnerContent(View view) {
-    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.test_array,
-        android.R.layout.simple_spinner_item);
+    ArrayAdapter<CharSequence> adapter = ArrayAdapter
+        .createFromResource(getActivity(), R.array.test_array,
+            android.R.layout.simple_spinner_item);
     testType = view.findViewById(R.id.test_spinner);
     testType.setAdapter(adapter);
 
@@ -56,9 +70,11 @@ public class TestFragment extends Fragment {
       public void onItemSelected(AdapterView<?> parent, View view,
           int position, long id) {
 
+        parent.setEnabled(false);
+
         Fragment fragment = null;
 
-        switch ((String)parent.getSelectedItem()) {
+        switch ((String) parent.getSelectedItem()) {
           case "Mono":
             fragment = new TestMono();
             break;
@@ -72,13 +88,15 @@ public class TestFragment extends Fragment {
             break;
         }
 
-
-          //replacing the fragment
-          if (fragment != null) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.test_frame, fragment);
-            ft.commit();
-          }
+        //replacing the fragment
+        if (fragment != null) {
+          Bundle args = new Bundle();
+          args.putSerializable(SETUP_KEY, setupId);
+          fragment.setArguments(args);
+          FragmentTransaction ft = getFragmentManager().beginTransaction();
+          ft.replace(R.id.test_frame, fragment);
+          ft.commit();
+        }
       }
 
       @Override

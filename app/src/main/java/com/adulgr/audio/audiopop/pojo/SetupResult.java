@@ -5,16 +5,23 @@ import android.support.annotation.NonNull;
 import com.adulgr.audio.audiopop.entities.Setup;
 import java.util.Date;
 
-public class Result {
+public class SetupResult {
 
   @Embedded
   private Setup setup;
 
-
-  private boolean testResult;
-
   @NonNull
   private Date timestamp;
+
+  private long testId;
+
+  public long getTestId() {
+    return testId;
+  }
+
+  public void setTestId(long testId) {
+    this.testId = testId;
+  }
 
   public Setup getSetup() {
     return setup;
@@ -22,14 +29,6 @@ public class Result {
 
   public void setSetup(Setup setup) {
     this.setup = setup;
-  }
-
-  public boolean getTestResult() {
-    return testResult;
-  }
-
-  public void setTestResult(boolean testResult) {
-    this.testResult = testResult;
   }
 
   @NonNull

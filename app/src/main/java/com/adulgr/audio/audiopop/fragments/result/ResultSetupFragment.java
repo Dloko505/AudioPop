@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +19,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.adulgr.audio.audiopop.R;
 import com.adulgr.audio.audiopop.db.AudioPopDb;
-import com.adulgr.audio.audiopop.pojo.Result;
+import com.adulgr.audio.audiopop.fragments.test.TestFragment;
+import com.adulgr.audio.audiopop.pojo.SetupResult;
 import java.text.DateFormat;
 import java.util.List;
 
 
-public class ResultFragment extends Fragment {
+public class ResultSetupFragment extends Fragment {
 
-  private ListView list;
+  private ListView setupList;
 
 
   @Override
@@ -42,53 +44,66 @@ public class ResultFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 //    return super.onCreateView(inflater, container, savedInstanceState);
-    View view = inflater.inflate(R.layout.result_fragment, container, false);
+    View view = inflater.inflate(R.layout.result_setup_fragment, container, false);
 
-    list = view.findViewById(R.id.list);
+    setupList = view.findViewById(R.id.setup_list);
 
-    list.setOnItemClickListener(new OnItemClickListener() {
+    setupList.setOnItemClickListener(new OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        goToResultTestFrag((SetupResult) parent.getItemAtPosition(position));
       }
     });
     return view;
   }
 
-  private class SetupQuery extends AsyncTask<Void, Void, List<Result>> {
+  private void goToResultTestFrag(SetupResult result) {
+    Fragment fragment = new ResultTestFragment();
+    Bundle args = new Bundle();
+    args.putSerializable(TestFragment.SETUP_KEY, result.getSetup().getId());
+    args.putSerializable(TestFragment.TEST_KEY, result.getTestId());
+    fragment.setArguments(args);
+    FragmentManager fragmentManager = getFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    fragmentTransaction.replace(R.id.main_container, fragment);
+    fragmentTransaction.addToBackStack(null);
+    fragmentTransaction.commit();
+  }
+
+  private class SetupQuery extends AsyncTask<Void, Void, List<SetupResult>> {
 
     @Override
-    protected List<Result> doInBackground(Void... voids) {
+    protected List<SetupResult> doInBackground(Void... voids) {
       return AudioPopDb.getInstance(getContext()).getSetupDao().selectResults();
     }
 
     @Override
-    protected void onPostExecute(List<Result> setups) {
+    protected void onPostExecute(List<SetupResult> setups) {
       ResultAdaptor adapter = new ResultAdaptor(getContext(), setups);
-      list.setAdapter(adapter);
+      setupList.setAdapter(adapter);
     }
 
   }
 
-  private class ResultAdaptor extends ArrayAdapter<Result> {
+  private class ResultAdaptor extends ArrayAdapter<SetupResult> {
 
     public ResultAdaptor(@NonNull Context context,
-        @NonNull List<Result> objects) {
-      super(context, R.layout.result_item, objects);
+        @NonNull List<SetupResult> objects) {
+      super(context, R.layout.result_setup_item, objects);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
       if (convertView == null) {
-        convertView = getLayoutInflater().inflate(R.layout.result_item, null, false);
+        convertView = getLayoutInflater().inflate(R.layout.result_setup_item, null, false);
       }
-      Result result = getItem(position);
+      SetupResult setupResult = getItem(position);
       TextView listSetup = convertView.findViewById(R.id.list_setup);
       TextView listTimestamp = convertView.findViewById(R.id.list_timestamp);
       DateFormat format = DateFormat.getDateTimeInstance();
-      listSetup.setText(result.getSetup().getName());
-      listTimestamp.setText(format.format(result.getTimestamp()));
+      listSetup.setText(setupResult.getSetup().getName());
+      listTimestamp.setText(format.format(setupResult.getTimestamp()));
       return convertView;
     }
   }

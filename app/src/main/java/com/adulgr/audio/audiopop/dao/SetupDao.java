@@ -5,7 +5,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import com.adulgr.audio.audiopop.entities.Setup;
-import com.adulgr.audio.audiopop.pojo.Result;
+import com.adulgr.audio.audiopop.pojo.SetupResult;
 import java.util.List;
 
 @Dao
@@ -17,10 +17,13 @@ public interface SetupDao {
   @Query("SELECT * FROM setup")
   List<Setup> select();
 
-  @Query("SELECT setup.*, test.timestamp, test.testResult FROM setup JOIN ("
+  @Query("SELECT * FROM setup WHERE setup_id = :id")
+  Setup select(long id);
+
+  @Query("SELECT setup.*, test.timestamp, test.test_id as testId FROM setup JOIN ("
       + "SELECT setup_id, Max(timestamp) AS timestamp FROM test GROUP BY setup_id) "
       + "last_test ON setup.setup_id = last_test.setup_id "
       + "JOIN test ON test.setup_id = last_test.setup_id AND test.timestamp = last_test.timestamp ORDER BY test.timestamp DESC")
-  List<Result> selectResults();
+  List<SetupResult> selectResults();
 
 }
