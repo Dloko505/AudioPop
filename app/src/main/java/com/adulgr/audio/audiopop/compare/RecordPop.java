@@ -86,37 +86,42 @@ public class RecordPop {
     }).start();
   }
 
-  public void play(Uri source) {
-    class Listener implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
-
-      @Override
-      public void onPrepared(MediaPlayer player) {
-        player.start();
-      }
+  public void play(int id) {
+    class Listener implements MediaPlayer.OnCompletionListener {
 
       @Override
       public void onCompletion(MediaPlayer player) {
         player.release();
       }
     }
-    MediaPlayer player = null;
+    MediaPlayer player = MediaPlayer.create(host, id);
+    AudioAttributes attributes = new AudioAttributes.Builder()
+        .setContentType(AudioAttributes.CONTENT_TYPE_UNKNOWN)
+        .setFlags(AudioAttributes.FLAG_AUDIBILITY_ENFORCED)
+        .build();
+    player.setOnCompletionListener(new Listener());
+    player.setAudioAttributes(attributes);
+    player.setVolume(1, 1);
+    player.setLooping(false);
+    player.start();
+  }
+
+  public float compare(int resourceId) {
     try {
-      Listener listener = new Listener();
-      AudioAttributes attributes = new AudioAttributes.Builder()
-          .setContentType(AudioAttributes.CONTENT_TYPE_UNKNOWN)
-          .setFlags(AudioAttributes.FLAG_AUDIBILITY_ENFORCED)
-          .build();
-      player = new MediaPlayer();
-      player.setDataSource(host, source);
-      player.setAudioAttributes(attributes);
-      player.setVolume(1, 1);
-      player.setOnPreparedListener(listener);
-      player.setOnCompletionListener(listener);
-      player.prepareAsync();
-    } catch (IOException e) {
-      if (player != null) {
-        player.release();
-      }
+      InputStream fis1 = null, fis2 = null;
+
+      fis1 = host.getResources().openRawResource(resourceId);
+      fis2 = host.getResources().openRawResource(resourceId);
+//          new FileInputStream(file);
+
+      Wave wave1 = new Wave(fis1),
+          wave2 = new Wave(fis2);
+      FingerprintSimilarity similarity;
+
+      similarity = wave1.getFingerprintSimilarity(wave2);
+      return similarity.getSimilarity();
+    } catch (RuntimeException e) { //catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 
@@ -255,42 +260,7 @@ public class RecordPop {
 
   }
 
-//  private boolean compareFile() {
-//    File internal = getFilesDir();
-//    File file = new File(internal, getString(R.string.wav_filename_format, new Date()));
-
-//    Wave w2 = new Wave(file.getPath());
-//
-//    FingerprintSimilarity fps = w1.getFingerprintSimilarity(w2);
-//    float score = fps.getScore();
-//    float sim = fps.getSimilarity();
-//    System.out.println(sim);
-//  }
-
-  public class compare {
-
-    float result;
-
-    public void match() {
-
-      try {
-        InputStream fis1 = null, fis2 = null;
-
-        fis1 = new FileInputStream(
-            String.valueOf(host.getResources().openRawResource(R.raw.speaker_pop)));
-        fis2 = new FileInputStream(file);
-
-        Wave wave1 = new Wave(fis1),
-            wave2 = new Wave(fis2);
-        FingerprintSimilarity similarity;
-
-        similarity = wave1.getFingerprintSimilarity(wave2);
-        result = similarity.getSimilarity();
-
-      } catch (Exception e) {
-      }
-      System.out.println(result);
-
-    }
+  public File getFile() {
+    return file;
   }
 }

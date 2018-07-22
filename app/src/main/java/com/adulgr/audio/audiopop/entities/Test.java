@@ -87,4 +87,5 @@ public class Test {
   public void setTimestamp(@NonNull Date timestamp) {
     this.timestamp = timestamp;
   }
+
 }

@@ -43,7 +43,6 @@ public class ResultSetupFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-//    return super.onCreateView(inflater, container, savedInstanceState);
     View view = inflater.inflate(R.layout.result_setup_fragment, container, false);
 
     setupList = view.findViewById(R.id.setup_list);
@@ -79,15 +78,15 @@ public class ResultSetupFragment extends Fragment {
 
     @Override
     protected void onPostExecute(List<SetupResult> setups) {
-      ResultAdaptor adapter = new ResultAdaptor(getContext(), setups);
+      ResultSetupAdaptor adapter = new ResultSetupAdaptor(getContext(), setups);
       setupList.setAdapter(adapter);
     }
 
   }
 
-  private class ResultAdaptor extends ArrayAdapter<SetupResult> {
+  private class ResultSetupAdaptor extends ArrayAdapter<SetupResult> {
 
-    public ResultAdaptor(@NonNull Context context,
+    public ResultSetupAdaptor(@NonNull Context context,
         @NonNull List<SetupResult> objects) {
       super(context, R.layout.result_setup_item, objects);
     }

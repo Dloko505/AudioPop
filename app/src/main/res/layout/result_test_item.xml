@@ -6,31 +6,10 @@
   xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <TextView
-    android:id="@+id/test_list_setup"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textSize="24dp"
-    android:textStyle="bold"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"/>
-
-  <TextView
-    android:id="@+id/test_list_gear"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@id/test_list_setup"/>
-
-  <TextView
-    android:id="@+id/test_list_setup_notes"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@id/test_list_gear"/>
-
-  <TextView
     android:id="@+id/test_list_timestamp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@id/test_list_setup_notes"/>
+    app:layout_constraintTop_toTopOf="parent"/>
 
   <TextView
     android:id="@+id/test_list_test_type"

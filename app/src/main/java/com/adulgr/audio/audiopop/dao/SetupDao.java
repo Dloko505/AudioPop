@@ -25,5 +25,4 @@ public interface SetupDao {
       + "last_test ON setup.setup_id = last_test.setup_id "
       + "JOIN test ON test.setup_id = last_test.setup_id AND test.timestamp = last_test.timestamp ORDER BY test.timestamp DESC")
   List<SetupResult> selectResults();
-
 }

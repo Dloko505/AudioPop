@@ -32,6 +32,8 @@ public class TestMono extends Fragment {
   private EditText testNotes;
   private Spinner testSelect;
   private Long setupId;
+  private static final float THRESHOLD = 0.75f;
+
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,11 +54,11 @@ public class TestMono extends Fragment {
     testButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        RecordPop rec = new RecordPop(getActivity());
+        final RecordPop rec = new RecordPop(getActivity());
 
-        rec.play(Uri.parse(
-            "android.resource://" + getActivity().getPackageName() + "/raw/speaker_pop.wav"));
+        rec.play(R.raw.speaker_pop);
         rec.startRecording(5);
+
 
         Toast.makeText(getContext(), "Test Commencing", Toast.LENGTH_LONG).show();
 
@@ -83,10 +85,11 @@ public class TestMono extends Fragment {
 
             Test test = new Test();
             test.setTimestamp(new Date());
-            test.setTestResult(true);
             test.setNotes(testNotes.getText().toString());
             test.setTestType(testSelect.getSelectedItem().toString());
             test.setSetupId(setupId);
+            float difference = rec.compare(R.raw.speaker_pop);
+            test.setTestResult(difference > THRESHOLD);
             new TestInsert().execute(test);
 
             nested.setVisibility(View.INVISIBLE);

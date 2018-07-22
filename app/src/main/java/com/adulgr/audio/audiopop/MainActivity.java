@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity
   private static final int REQUEST_ALL_PERMISSION = 1000;
   private String[] permissions = {
       Manifest.permission.RECORD_AUDIO,
-//      Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//      Manifest.permission.READ_EXTERNAL_STORAGE,
       Manifest.permission.INTERNET
   };
 

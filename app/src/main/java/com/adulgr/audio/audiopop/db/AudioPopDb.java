@@ -63,28 +63,28 @@ public abstract class AudioPopDb extends RoomDatabase {
 
   }
 
-  private static class PrepopulateTask extends AsyncTask<Context, Void, Void> {
-
-    @Override
-    protected Void doInBackground(Context... contexts) {
-      AudioPopDb db = getInstance(contexts[0]);
-      Setup setup = new Setup();
-      setup.setName("Nicholas");
-      setup.setGear("Stock");
-      long setupId = db.getSetupDao().insert(setup);
-      Test test = new Test();
-      test.setSetupId(setupId);
-      test.setTestType("Stereo");
-      test.setNotes("Blow it up and buy a new one");
-      test.setTestResult(false);
-      test.setTimestamp(new Date());
-      db.getTestDao().insert(test);
-      forgetInstance(contexts[0]);
-      return null;
-    }
-
-
-  }
+//  private static class PrepopulateTask extends AsyncTask<Context, Void, Void> {
+//
+//    @Override
+//    protected Void doInBackground(Context... contexts) {
+//      AudioPopDb db = getInstance(contexts[0]);
+//      Setup setup = new Setup();
+//      setup.setName("Nicholas");
+//      setup.setGear("Stock");
+//      long setupId = db.getSetupDao().insert(setup);
+//      Test test = new Test();
+//      test.setSetupId(setupId);
+//      test.setTestType("Stereo");
+//      test.setNotes("Blow it up and buy a new one");
+//      test.setTestResult(false);
+//      test.setTimestamp(new Date());
+//      db.getTestDao().insert(test);
+//      forgetInstance(contexts[0]);
+//      return null;
+//    }
+//
+//
+//  }
 
 
   public static class Converters {
