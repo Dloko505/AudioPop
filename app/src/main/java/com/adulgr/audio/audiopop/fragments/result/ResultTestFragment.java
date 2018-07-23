@@ -17,11 +17,12 @@ import com.adulgr.audio.audiopop.db.AudioPopDb;
 import com.adulgr.audio.audiopop.entities.Setup;
 import com.adulgr.audio.audiopop.entities.Test;
 import com.adulgr.audio.audiopop.fragments.test.TestFragment;
-import com.adulgr.audio.audiopop.pojo.SetupResult;
-import com.adulgr.audio.audiopop.pojo.TestResult;
 import java.text.DateFormat;
 import java.util.List;
 
+/**
+ * This fragment holds an individual setup with a various amount of tests
+ */
 public class ResultTestFragment extends Fragment {
 
   private ListView testList;
@@ -36,14 +37,6 @@ public class ResultTestFragment extends Fragment {
     }
   }
 
-  @Override
-  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    //you can set the title for your toolbar here for different fragments different titles
-    getActivity().setTitle("RESULTS");
-    getView();
-  }
-
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -55,6 +48,14 @@ public class ResultTestFragment extends Fragment {
       new TestQuery().execute(setupId);
     }
     return view;
+  }
+
+  @Override
+  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    //you can set the title for your toolbar here for different fragments different titles
+    getActivity().setTitle("RESULTS");
+    getView();
   }
 
   private class SetupQuery extends AsyncTask<Long, Void, Setup> {
@@ -72,8 +73,8 @@ public class ResultTestFragment extends Fragment {
       TextView setupNotes = getActivity().findViewById(R.id.setup_list_notes);
 
       setupTitle.setText(setup.getName());
-      setupGear.setText("Gear: " + setup.getGear());
-      setupNotes.setText("Pre-notes: " + setup.getSetup_notes());
+      setupGear.setText(setup.getGear());
+      setupNotes.setText(setup.getSetup_notes());
 
 
     }
@@ -96,7 +97,7 @@ public class ResultTestFragment extends Fragment {
 
   private class TestListAdapter extends ArrayAdapter<Test> {
 
-    public TestListAdapter(@NonNull Context context,
+    TestListAdapter(@NonNull Context context,
         @NonNull List<Test> tests) {
       super(context, R.layout.result_test_item, tests);
     }
@@ -113,10 +114,11 @@ public class ResultTestFragment extends Fragment {
       TextView listTestNotes = convertView.findViewById(R.id.test_list_test_notes);
       TextView listTestResult = convertView.findViewById(R.id.test_list_test_result);
       DateFormat format = DateFormat.getDateTimeInstance();
+      assert test != null;
       listTimestamp.setText(format.format(test.getTimestamp()));
-      listTestType.setText("Type: \n" + test.getTestType());
-      listTestNotes.setText("Test Notes: \n" + test.getNotes());
-      listTestResult.setText("Results: \n" + Boolean.toString(test.isTestResult()));
+      listTestType.setText(test.getTestType());
+      listTestNotes.setText(test.getNotes());
+      listTestResult.setText(Boolean.toString(test.isTestResult()));
 
       return convertView;
     }

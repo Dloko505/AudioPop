@@ -1,6 +1,5 @@
 package com.adulgr.audio.audiopop.fragments.test;
 
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,11 +17,10 @@ import android.widget.Toast;
 import com.adulgr.audio.audiopop.R;
 import com.adulgr.audio.audiopop.compare.RecordPop;
 import com.adulgr.audio.audiopop.db.AudioPopDb;
-import com.adulgr.audio.audiopop.entities.Setup;
 import com.adulgr.audio.audiopop.entities.Test;
 import com.adulgr.audio.audiopop.fragments.result.ResultSetupFragment;
-import com.adulgr.audio.audiopop.fragments.setup.SetupFragment;
 import java.util.Date;
+
 
 public class TestMono extends Fragment {
 
@@ -58,7 +56,6 @@ public class TestMono extends Fragment {
 
         rec.play(R.raw.speaker_pop);
         rec.startRecording(5);
-
 
         Toast.makeText(getContext(), "Test Commencing", Toast.LENGTH_LONG).show();
 

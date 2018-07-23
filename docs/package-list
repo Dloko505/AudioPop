@@ -1,0 +1,10 @@
+com.adulgr.audio.audiopop
+com.adulgr.audio.audiopop.compare
+com.adulgr.audio.audiopop.dao
+com.adulgr.audio.audiopop.db
+com.adulgr.audio.audiopop.entities
+com.adulgr.audio.audiopop.fragments.result
+com.adulgr.audio.audiopop.fragments.setup
+com.adulgr.audio.audiopop.fragments.test
+com.adulgr.audio.audiopop.fragments.user
+com.adulgr.audio.audiopop.pojo
